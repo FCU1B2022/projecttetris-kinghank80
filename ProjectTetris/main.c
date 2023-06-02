@@ -347,6 +347,9 @@ void printCanvas(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
             }
         }
     }
+
+    printf("\033[%d;%dHScore: %d", CANVAS_HEIGHT + 2, 0, state->score);
+
     return;
 }
 
@@ -393,6 +396,7 @@ int clearLine(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH]) {
 
 void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
 {
+
     if (ROTATE_FUNC()) {
         int newRotate = (state->rotate + 1) % 4;
         if (move(canvas, state->x, state->y, state->rotate, state->x, state->y, newRotate, state->queue[0]))
