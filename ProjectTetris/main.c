@@ -63,6 +63,7 @@ typedef struct
     int sleep;
     int timestop_cd;
     int crazy_diamond;
+    int crazy_diamond_power;
     ShapeId queue[4];
 }State;
 
@@ -503,7 +504,15 @@ void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
             state->y++;
         }
         else {
-            state->score += clearLine(canvas);
+            int temp = 0;
+            temp = clearLine(canvas);
+            state->score += temp;
+            state->crazy_diamond_power += temp;
+            if (state->crazy_diamond_power == 10) {
+                state->crazy_diamond_power = 0;
+                state->crazy_diamond++;
+            }
+
 
             state->x = CANVAS_WIDTH / 2;
             state->y = 0;
@@ -516,7 +525,7 @@ void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
 
             if (!move(canvas, state->x, state->y, state->rotate, state->x, state->y, state->rotate, state->queue[0]))
             {
-                if (state->crazy_diamond == 1) {
+                if (state->crazy_diamond > 0) {
                     for (int i = 0; i <= CANVAS_HEIGHT; i++) {
                         for (int j = 2; j < CANVAS_WIDTH * 2 + 2; j++) {
                             if (canvas[i][j].shape != EMPTY) {
@@ -532,7 +541,7 @@ void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
                     printf("\033[%d;%dH\x1b[41m GAME OVER \x1b[0m\033[%d;%dH", CANVAS_HEIGHT - 3, CANVAS_WIDTH * 2 + 5, CANVAS_HEIGHT + 5, 0);
                     exit(0);
                 }
-                state->crazy_diamond = 0;
+                state->crazy_diamond--;
             }
         }
     }
@@ -550,7 +559,8 @@ int main()
         .fallTime = 0,
         .sleep = 100,
         .timestop_cd = 0,
-        .crazy_diamond = 1
+        .crazy_diamond = 0,
+        .crazy_diamond_power = 0
     };
 
     for (int i = 0; i < 4; i++)
