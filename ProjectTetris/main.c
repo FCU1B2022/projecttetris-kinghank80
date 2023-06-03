@@ -572,8 +572,6 @@ int main()
 
     move(canvas, state.x, state.y, state.rotate, state.x, state.y, state.rotate, state.queue[0]);
 
-    Shape shape;
-
     while (1)
     {
         logic(canvas, &state);
