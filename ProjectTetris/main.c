@@ -508,7 +508,7 @@ void logic(Block canvas[CANVAS_HEIGHT][CANVAS_WIDTH], State* state)
             temp = clearLine(canvas);
             state->score += temp;
             state->crazy_diamond_power += temp;
-            if (state->crazy_diamond_power == 10) {
+            if (state->crazy_diamond_power == 8) {
                 state->crazy_diamond_power = 0;
                 state->crazy_diamond++;
             }
